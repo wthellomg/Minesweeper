@@ -1,5 +1,6 @@
 from view import MenuView, GameView
 from model import Model
+from tkinter import messagebox
 
 
 class Controller:
@@ -30,11 +31,14 @@ class Controller:
         self.start_game(width, height, mines)
 
     def start_game(self, width, height, mines):
-        self.model = Model(width, height, mines)
-        self.game_view = GameView(self, width, height, mines, self.model)
-        self.timer = 0
-        self.timer_running = True
-        self.update_timer()
+        if width < 2 or height < 2 or mines >= width*height:
+            messagebox.showinfo("invalid dimensions or mine amount")
+        else:
+            self.model = Model(width, height, mines)
+            self.game_view = GameView(self, width, height, mines, self.model)
+            self.timer = 0
+            self.timer_running = True
+            self.update_timer()
 
     def update_timer(self):
         if self.timer_running:
